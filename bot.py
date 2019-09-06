@@ -1,4 +1,5 @@
 import discord
+import os
 
 
 # The BotClient class is a custom class that *extends* the discord.Client class, and
@@ -20,4 +21,4 @@ if __name__ == '__main__':
     # Set up an instance of the BotClient and run it
     # The token is a secret code given by Discord that proves the bot is allowed to log in under its account.
     client = BotClient()
-    client.run('TODO: Token!')
+    client.run(os.environ['BOT_TOKEN'])
