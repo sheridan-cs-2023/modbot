@@ -5,14 +5,58 @@ import os
 # The BotClient class is a custom class that *extends* the discord.Client class, and
 # acts as a client that can send and receive messages under a bot account on Discord.
 class BotClient(discord.Client):
+
+    # This method ID represents the message asking users to react to choose their class track
+    CLASSTRACK_MESSAGE_ID = 619620774021562380
+
+    # Maps certain reactions (emojis) to certain roles that can be assigned, by name
+    CLASSTRACK_REACTIONS_ROLES = {
+        "🅰": "Class Track A",
+        "🅱": "Class Track B"
+    }
+
     # This method is called when the bot is logged in and ready to send messages
     async def on_ready(self):
         print(f'Logged on as {self.user}!')
+        await super().get_channel(619620234906828830).fetch_message(self.CLASSTRACK_MESSAGE_ID)
 
     # This method is called whenever a new message is sent in the server
     # The `message` parameter is a discord.Message object with message information.
     async def on_message(self, message: discord.Message):
-        print(f'Message from {message.author}: {message.content}')
+        pass
+
+    # This method is called whenever a new reaction is created
+    async def on_raw_reaction_add(self, event: discord.RawReactionActionEvent):
+        await self.handle_raw_reaction(event, True)
+
+    # This method is called whenever a new reaction is removed
+    async def on_raw_reaction_remove(self, event: discord.RawReactionActionEvent):
+        await self.handle_raw_reaction(event, False)
+
+    # This method is called whenever a reaction is added or removed
+    async def handle_raw_reaction(self, event: discord.RawReactionActionEvent, is_add: bool):
+
+        # We need to get some info about the event
+        guild: discord.Guild = super().get_guild(event.guild_id)
+        member: discord.Member = guild.get_member(event.user_id)
+        channel: discord.TextChannel = guild.get_channel(event.channel_id)
+        message: discord.Message = await channel.fetch_message(event.message_id)
+
+        # Do class track role enrollment if the reaction is on the enrollment message
+        if event.message_id == self.CLASSTRACK_MESSAGE_ID:
+            # Make sure the emoji is valid
+            if event.emoji.name in self.CLASSTRACK_REACTIONS_ROLES:
+
+                # Add or remove the appropriate role
+                if is_add:
+                    await member.add_roles(discord.utils.get(guild.roles, name=self.CLASSTRACK_REACTIONS_ROLES[event.emoji.name]))
+                else:
+                    await member.remove_roles(discord.utils.get(guild.roles, name=self.CLASSTRACK_REACTIONS_ROLES[event.emoji.name]))
+
+            # If this emoji is invalid, remove it!
+            else:
+                await message.remove_reaction(event.emoji, member)
+
 
 
 # The __name__ variable will only be set to '__main__' if we are trying to run this file.

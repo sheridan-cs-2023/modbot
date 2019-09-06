@@ -9,3 +9,4 @@ contribute code!
 This server, which starts off in `bot.py`, is designed to be easy for newcomers to programming,
 with plenty of explanatory comments.
 
+[Docker Container](https://hub.docker.com/r/mctague/modbot) (Used for deployments)
