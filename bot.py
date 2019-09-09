@@ -12,7 +12,10 @@ class BotClient(discord.Client):
     # Maps certain reactions (emojis) to certain roles that can be assigned, by name
     CLASSTRACK_REACTIONS_ROLES = {
         "🅰": "Class Track A",
-        "🅱": "Class Track B"
+        "🅱": "Class Track B",
+        "👦": "H i m ' s t d v e",
+        "👧": "H e r ' s t d v e",
+        "🤠": "T h e y ' s t d v e"
     }
 
     # This method is called when the bot is logged in and ready to send messages
