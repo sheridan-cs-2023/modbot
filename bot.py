@@ -26,7 +26,11 @@ class BotClient(discord.Client):
     # This method is called whenever a new message is sent in the server
     # The `message` parameter is a discord.Message object with message information.
     async def on_message(self, message: discord.Message):
-        pass
+
+        # !eval <code> evaluates a python expression and sends the result.
+        # Note that this is a fairly unsafe feature to add, and if users attempt to abuse it, it will be removed.
+        if message.content.startsWith('!eval '):
+            message.channel.send(f"Result: {eval(message.content[6])}")
 
     # This method is called whenever a new reaction is created
     async def on_raw_reaction_add(self, event: discord.RawReactionActionEvent):
