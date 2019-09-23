@@ -1,5 +1,6 @@
 import discord
 import os
+import sys
 
 
 # The BotClient class is a custom class that *extends* the discord.Client class, and
@@ -30,7 +31,11 @@ class BotClient(discord.Client):
         # !eval <code> evaluates a python expression and sends the result.
         # Note that this is a fairly unsafe feature to add, and if users attempt to abuse it, it will be removed.
         if message.content.startswith('!eval '):
-            message.channel.send(f"Result: {eval(message.content[6])}")
+            try:
+                result = eval(message.content[6:])
+                await message.channel.send(f"Result: {result}")
+            except:
+                await message.channel.send(f"Error: {sys.exc_info()[0]}")
 
     # This method is called whenever a new reaction is created
     async def on_raw_reaction_add(self, event: discord.RawReactionActionEvent):
