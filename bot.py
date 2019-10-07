@@ -2,6 +2,7 @@ import discord
 import os
 import sys
 import inspect
+from cowpy import cow
 
 
 # The BotClient class is a custom class that *extends* the discord.Client class, and
@@ -39,6 +40,11 @@ class BotClient(discord.Client):
                 await message.channel.send(f"Result: {result}")
             except:
                 await message.channel.send(f"Error: {sys.exc_info()[0]}")
+        # !moo <message>
+        # ;)
+        elif message.content.startswith("!moo "):
+            thing = cow.Cower()
+            await message.channel.send(f"```\n{thing.milk(message.content[5:])}\n```");
 
     # This method is called whenever a new reaction is created
     async def on_raw_reaction_add(self, event: discord.RawReactionActionEvent):
