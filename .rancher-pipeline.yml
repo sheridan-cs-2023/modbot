@@ -12,7 +12,8 @@ stages:
 timeout: 60
 notification:
   recipients:
-  - recipient: UP1329MAL
+  - recipient: ' '
     notifier: c-wbkpz:n-qwtz6
   condition:
+  - Success
   - Failed
