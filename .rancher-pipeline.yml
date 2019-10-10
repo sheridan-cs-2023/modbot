@@ -10,4 +10,9 @@ stages:
   - applyYamlConfig:
       path: ./deployment.yaml
 timeout: 60
-notification: {}
+notification:
+  recipients:
+  - recipient: Ethan McTague
+    notifier: c-wbkpz:n-qwtz6
+  condition:
+  - Failed
