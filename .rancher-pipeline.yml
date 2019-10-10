@@ -12,7 +12,7 @@ stages:
 timeout: 60
 notification:
   recipients:
-  - recipient: Ethan McTague
+  - recipient: UP1329MAL
     notifier: c-wbkpz:n-qwtz6
   condition:
   - Failed
